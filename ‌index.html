@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#16A34A">
+<meta name="description" content="Lanka Pigeon Hub - Sri Lankan Pigeon Breeders">
+<title>Lanka Pigeon Hub</title>
+
+<!-- QR Code -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+:root{
+  --green:#16A34A;
+  --green-dark:#08752f;
+  --orange:#F97316;
+  --red:#DC2626;
+  --blue:#2563EB;
+  --dark:#172018;
+  --gray:#6B7280;
+  --light:#F3F7F3;
+  --border:#E5E7EB;
+  --white:#fff;
+  --shadow:0 5px 18px rgba(0,0,0,.09);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,"Noto Sans Sinhala","Segoe UI",sans-serif;
+  background:white;
+  color:var(--dark);
+  min-height:100vh;
+  padding-bottom:75px;
+}
+
+/* PIGEON BACKGROUND */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background:
+    linear-gradient(
+      rgba(240,249,242,.90),
+      rgba(240,249,242,.94)
+    ),
+    url("https://images.unsplash.com/photo-1555169062-013468b47731?auto=format&fit=crop&w=1600&q=85")
+    center/cover no-repeat;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 15%,rgba(22,163,74,.08),transparent 30%),
+    radial-gradient(circle at 85% 75%,rgba(249,115,22,.08),transparent 30%);
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.app{
+  max-width:650px;
+  margin:auto;
+  min-height:100vh;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 0 35px rgba(0,0,0,.12);
+}
+
+/* HEADER */
+
+.header{
+  height:68px;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  color:white;
+  padding:10px 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:50;
+  box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-icon{
+  width:45px;
+  height:45px;
+  background:white;
+  color:var(--green);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+
+.logo h1{
+  font-size:17px;
+}
+
+.logo small{
+  opacity:.85;
+}
+
+.lang{
+  padding:8px 12px;
+  border-radius:20px;
+  background:white;
+  color:var(--green);
+  font-weight:bold;
+}
+
+/* SCREENS */
+
+.screen{
+  display:none;
+  padding:16px;
+  min-height:calc(100vh - 143px);
+}
+
+.screen.active{
+  display:block;
+}
+
+.page-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+h2{
+  font-size:23px;
+}
+
+h3{
+  margin-bottom:7px;
+}
+
+/* SEARCH */
+
+.search{
+  display:flex;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  margin-bottom:16px;
+}
+
+.search input{
+  flex:1;
+  border:0;
+  outline:0;
+  padding:14px;
+  background:transparent;
+}
+
+.search button{
+  width:55px;
+  background:var(--green);
+  color:white;
+  font-size:20px;
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.stat{
+  padding:17px;
+  border-radius:16px;
+  color:white;
+  box-shadow:var(--shadow);
+}
+
+.stat.green{
+  background:linear-gradient(135deg,#16A34A,#15803D);
+}
+
+.stat.orange{
+  background:linear-gradient(135deg,#F97316,#EA580C);
+}
+
+.stat strong{
+  display:block;
+  font-size:28px;
+  margin-top:4px;
+}
+
+/* ALERT */
+
+.alert{
+  background:#FEF2F2;
+  border:1px solid #FECACA;
+  border-left:5px solid var(--red);
+  color:#991B1B;
+  padding:13px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+
+.alert-title{
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+/* CARD */
+
+.card{
+  background:rgba(255,255,255,.98);
+  border:1px solid var(--border);
+  border-radius:17px;
+  box-shadow:var(--shadow);
+  padding:13px;
+  margin-bottom:14px;
+}
+
+.pigeon-card{
+  display:flex;
+  gap:12px;
+}
+
+.pigeon-photo{
+  width:105px;
+  height:105px;
+  object-fit:cover;
+  border-radius:13px;
+  background:#eee;
+  flex-shrink:0;
+}
+
+.pigeon-info{
+  flex:1;
+  min-width:0;
+}
+
+.pigeon-info h3{
+  font-size:17px;
+}
+
+.meta{
+  color:var(--gray);
+  font-size:13px;
+  margin:4px 0;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+  margin-top:5px;
+}
+
+.active-badge{
+  background:#DCFCE7;
+  color:#166534;
+}
+
+.lost-badge{
+  background:#FEE2E2;
+  color:#991B1B;
+}
+
+.sold-badge{
+  background:#FFEDD5;
+  color:#9A3412;
+}
+
+.dead-badge{
+  background:#E5E7EB;
+  color:#374151;
+}
+
+.sale-badge{
+  background:#DBEAFE;
+  color:#1D4ED8;
+}
+
+.actions{
+  display:flex;
+  gap:6px;
+  margin-top:9px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  padding:9px 12px;
+  border-radius:9px;
+  font-size:12px;
+  font-weight:bold;
+  transition:.15s;
+}
+
+.btn:active{
+  transform:scale(.96);
+}
+
+.btn-green{
+  background:var(--green);
+  color:white;
+}
+
+.btn-orange{
+  background:var(--orange);
+  color:white;
+}
+
+.btn-red{
+  background:var(--red);
+  color:white;
+}
+
+.btn-blue{
+  background:var(--blue);
+  color:white;
+}
+
+.btn-light{
+  background:#F3F4F6;
+  color:#333;
+}
+
+.btn-full{
+  width:100%;
+  padding:13px;
+  font-size:14px;
+}
+
+/* FILTERS */
+
+.filters{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding-bottom:5px;
+  margin-bottom:15px;
+}
+
+.filter{
+  white-space:nowrap;
+  padding:8px 13px;
+  border-radius:20px;
+  background:#E5E7EB;
+  color:#374151;
+}
+
+.filter.active{
+  background:var(--green);
+  color:white;
+}
+
+/* LISTING */
+
+.listing-img{
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  border-radius:13px;
+}
+
+.price{
+  color:var(--orange);
+  font-size:21px;
+  font-weight:bold;
+  margin:5px 0;
+}
+
+/* FORM */
+
+.form-group{
+  margin-bottom:13px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:6px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  border:1px solid #D1D5DB;
+  border-radius:10px;
+  padding:12px;
+  outline:none;
+  background:white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 2px rgba(22,163,74,.1);
+}
+
+.form-group textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+/* DETAIL */
+
+.detail-photo{
+  width:100%;
+  height:250px;
+  object-fit:cover;
+  border-radius:15px;
+  margin-bottom:14px;
+}
+
+.detail-section{
+  border-top:1px solid var(--border);
+  padding:15px 0;
+}
+
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:7px 0;
+}
+
+.detail-row span:first-child{
+  color:var(--gray);
+}
+
+.detail-row b{
+  text-align:right;
+}
+
+/* QR */
+
+.qr-box{
+  text-align:center;
+  padding:15px;
+}
+
+#qrcode{
+  display:flex;
+  justify-content:center;
+  margin:20px;
+}
+
+/* EMPTY */
+
+.empty{
+  text-align:center;
+  color:#888;
+  padding:45px 15px;
+}
+
+.empty-icon{
+  font-size:45px;
+  margin-bottom:10px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:0;
+  width:100%;
+  max-width:650px;
+  height:68px;
+  display:flex;
+  background:white;
+  border-top:1px solid var(--border);
+  box-shadow:0 -3px 15px rgba(0,0,0,.08);
+  z-index:60;
+}
+
+.nav-item{
+  flex:1;
+  background:white;
+  color:#6B7280;
+  font-size:10px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:3px;
+}
+
+.nav-item span{
+  font-size:20px;
+}
+
+.nav-item.active{
+  color:var(--green);
+  font-weight:bold;
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.58);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  z-index:100;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:650px;
+  max-height:92vh;
+  overflow:auto;
+  border-radius:22px 22px 0 0;
+  padding:20px;
+  animation:slideUp .2s ease;
+}
+
+@keyframes slideUp{
+  from{
+    transform:translateY(100%);
+  }
+  to{
+    transform:translateY(0);
+  }
+}
+
+.close{
+  float:right;
+  background:none;
+  font-size:28px;
+  line-height:20px;
+}
+
+/* LOGIN */
+
+#loginScreen{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:
+    linear-gradient(rgba(0,90,35,.78),rgba(0,55,25,.88)),
+    url("https://images.unsplash.com/photo-1555169062-013468b47731?auto=format&fit=crop&w=1600&q=85")
+    center/cover;
+}
+
+.login-box{
+  width:100%;
+  max-width:410px;
+  background:white;
+  border-radius:22px;
+  padding:25px;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.login-logo{
+  text-align:center;
+  margin-bottom:22px;
+}
+
+.login-logo .bird{
+  font-size:60px;
+}
+
+.login-logo h2{
+  margin-top:5px;
+}
+
+.login-logo p{
+  color:var(--gray);
+  margin-top:5px;
+}
+
+.demo{
+  background:#FFF7ED;
+  border:1px solid #FED7AA;
+  padding:12px;
+  border-radius:11px;
+  font-size:13px;
+  margin-top:15px;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:85px;
+  transform:translateX(-50%) translateY(20px);
+  background:#111827;
+  color:white;
+  padding:12px 18px;
+  border-radius:25px;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:300;
+  font-size:13px;
+  max-width:90%;
+  text-align:center;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* ADD BUTTON */
+
+.fab{
+  position:fixed;
+  right:18px;
+  bottom:85px;
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:var(--orange);
+  color:white;
+  font-size:25px;
+  box-shadow:0 5px 15px rgba(0,0,0,.2);
+  z-index:40;
+}
+
+/* PHOTO PREVIEW */
+
+.preview{
+  width:100%;
+  max-height:180px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-top:7px;
+  display:none;
+}
+
+@media(min-width:651px){
+  .app{
+    min-height:100vh;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginScreen">
+
+  <div class="login-box">
+
+    <div class="login-logo">
+      <div class="bird">🕊️</div>
+      <h2>Lanka Pigeon Hub</h2>
+      <p>Sri Lankan Pigeon Breeders</p>
+    </div>
+
+    <div class="form-group">
+      <label>Phone Number / දුරකථන අංකය</label>
+      <input id="loginPhone" type="tel" placeholder="0771234567">
+    </div>
+
+    <div class="form-group">
+      <label>OTP / Password</label>
+      <input id="loginOtp" type="password" placeholder="demo1234">
+    </div>
+
+    <button class="btn btn-green btn-full" onclick="login()">
+      Login / ඇතුල් වන්න
+    </button>
+
+    <div class="demo">
+      <b>Demo Account</b><br><br>
+      Phone: <b>0771234567</b><br>
+      Password: <b>demo1234</b>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="app">
+
+<!-- HEADER -->
+
+<header class="header">
+
+  <div class="logo">
+
+    <div class="logo-icon">🕊️</div>
+
+    <div>
+      <h1>Lanka Pigeon Hub</h1>
+      <small>Sri Lanka</small>
+    </div>
+
+  </div>
+
+  <button class="lang" id="langBtn" onclick="toggleLanguage()">
+    සිං
+  </button>
+
+</header>
+
+
+<!-- HOME -->
+
+<section id="home" class="screen active">
+
+  <div class="search">
+
+    <input
+      id="globalSearch"
+      placeholder="Search Ring Code e.g. KAM-001"
+      onkeydown="if(event.key==='Enter')searchPigeon()">
+
+    <button onclick="searchPigeon()">🔍</button>
+
+  </div>
+
+  <div class="stats">
+
+    <div class="stat green">
+      <span id="txtBreeders">Active Breeders</span>
+      <strong id="breederCount">1</strong>
+    </div>
+
+    <div class="stat orange">
+      <span id="txtPigeons">Total Pigeons</span>
+      <strong id="pigeonCount">0</strong>
+    </div>
+
+  </div>
+
+  <div class="alert">
+
+    <div class="alert-title">
+      🚨 <span id="txtLostNear">LOST NEAR YOU</span>
+    </div>
+
+    <div id="lostNearby">Checking...</div>
+
+  </div>
+
+  <div class="page-title">
+    <h2 id="txtFeatured">Featured Listings</h2>
+  </div>
+
+  <div id="featuredListings"></div>
+
+</section>
+
+
+<!-- MY PIGEONS -->
+
+<section id="pigeons" class="screen">
+
+  <div class="page-title">
+
+    <h2>My Pigeons</h2>
+
+    <button class="btn btn-green" onclick="openAddPigeon()">
+      + Add
+    </button>
+
+  </div>
+
+  <div class="filters">
+
+    <button class="filter active" onclick="setFilter('All',this)">
+      All
+    </button>
+
+    <button class="filter" onclick="setFilter('Active',this)">
+      Active
+    </button>
+
+    <button class="filter" onclick="setFilter('Lost',this)">
+      Lost
+    </button>
+
+    <button class="filter" onclick="setFilter('Sold',this)">
+      Sold
+    </button>
+
+    <button class="filter" onclick="setFilter('Archived',this)">
+      Archived
+    </button>
+
+  </div>
+
+  <div id="pigeonList"></div>
+
+</section>
+
+
+<!-- MARKETPLACE -->
+
+<section id="marketplace" class="screen">
+
+  <div class="page-title">
+
+    <h2>Marketplace</h2>
+
+    <button class="btn btn-orange" onclick="openSellForm()">
+      + Sell Pigeon
+    </button>
+
+  </div>
+
+  <div id="marketplaceList"></div>
+
+</section>
+
+
+<!-- LOST -->
+
+<section id="lost" class="screen">
+
+  <div class="page-title">
+
+    <h2>Lost & Found</h2>
+
+    <button class="btn btn-red" onclick="openLostForm()">
+      Report Lost
+    </button>
+
+  </div>
+
+  <div id="lostList"></div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="screen">
+
+  <h2 style="margin-bottom:15px">Profile</h2>
+
+  <div class="card">
+
+    <div style="text-align:center;padding:10px">
+
+      <div style="font-size:55px">👤</div>
+
+      <h3>Demo Breeder</h3>
+
+      <p class="meta">Lanka Pigeon Hub Member</p>
+
+    </div>
+
+    <div class="detail-section">
+
+      <div class="detail-row">
+        <span>Phone</span>
+        <b>0771234567</b>
+      </div>
+
+      <div class="detail-row">
+        <span>Location</span>
+        <b>Sri Lanka</b>
+      </div>
+
+    </div>
+
+  </div>
+
+  <button class="btn btn-red btn-full" onclick="logout()">
+    Logout / පිටවන්න
+  </button>
+
+</section>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+  <button class="nav-item active"
+    onclick="showScreen('home',this)">
+    <span>🏠</span>
+    Home
+  </button>
+
+  <button class="nav-item"
+    onclick="showScreen('pigeons',this)">
+    <span>🕊️</span>
+    My Pigeons
+  </button>
+
+  <button class="nav-item"
+    onclick="showScreen('marketplace',this)">
+    <span>🛒</span>
+    Marketplace
+  </button>
+
+  <button class="nav-item"
+    onclick="showScreen('lost',this)">
+    <span>🚨</span>
+    Lost & Found
+  </button>
+
+  <button class="nav-item"
+    onclick="showScreen('profile',this)">
+    <span>👤</span>
+    Profile
+  </button>
+
+</nav>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal()">×</button>
+
+    <div id="modalContent"></div>
+
+  </div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+/* =====================================================
+   LANKA PIGEON HUB
+   OFFLINE DEMO DATABASE
+===================================================== */
+
+const DEFAULT_PIGEONS = [
+
+{
+ id:1,
+ name:"Kamal",
+ ring:"KAM-001",
+ breed:"Highflyer",
+ color:"White",
+ gender:"Male",
+ age:"2 Years",
+ hatch:"2024-03-12",
+ status:"Active",
+ owner:"Demo Breeder",
+ phone:"94771234567",
+ location:"Kurunegala",
+ sire:"SIR-001 - Raja",
+ dam:"DAM-001 - Rani",
+ notes:"Very active flyer.",
+ photo:"https://images.unsplash.com/photo-1555169062-013468b47731?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+ id:2,
+ name:"Rani",
+ ring:"KAM-002",
+ breed:"Fantail",
+ color:"Grey",
+ gender:"Female",
+ age:"1 Year",
+ hatch:"2025-01-20",
+ status:"Active",
+ owner:"Demo Breeder",
+ phone:"94771234567",
+ location:"Kurunegala",
+ sire:"SIR-002 - King",
+ dam:"DAM-002 - Queen",
+ notes:"Healthy female pigeon.",
+ photo:"https://images.unsplash.com/photo-1497206365907-f5e5b9dbe3c7?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+ id:3,
+ name:"White King",
+ ring:"KAM-003",
+ breed:"King",
+ color:"White",
+ gender:"Male",
+ age:"3 Years",
+ hatch:"2023-04-10",
+ status:"Lost",
+ owner:"Demo Breeder",
+ phone:"94771234567",
+ location:"Ibbagamuwa",
+ sire:"SIR-003 - King",
+ dam:"DAM-003 - Queen",
+ notes:"Lost during evening flight.",
+ photo:"https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80"
+}
+
+];
+
+let pigeons =
+ JSON.parse(localStorage.getItem("lph_pigeons")) ||
+ DEFAULT_PIGEONS;
+
+let listings =
+ JSON.parse(localStorage.getItem("lph_listings")) ||
+ [
+  {
+   id:1,
+   pigeonId:1,
+   price:25000,
+   description:"Healthy highflyer pigeon.",
+   location:"Kurunegala",
+   photo:DEFAULT_PIGEONS[0].photo
+  }
+ ];
+
+let lostReports =
+ JSON.parse(localStorage.getItem("lph_lost")) ||
+ [
+  {
+   id:1,
+   pigeonId:3,
+   lastSeen:"Ibbagamuwa",
+   reward:5000,
+   contact:"0771234567"
+  }
+ ];
+
+let currentFilter="All";
+let sinhala=false;
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+function saveData(){
+
+ localStorage.setItem(
+   "lph_pigeons",
+   JSON.stringify(pigeons)
+ );
+
+ localStorage.setItem(
+   "lph_listings",
+   JSON.stringify(listings)
+ );
+
+ localStorage.setItem(
+   "lph_lost",
+   JSON.stringify(lostReports)
+);
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login(){
+
+ const phone=
+   document.getElementById("loginPhone").value.trim();
+
+ const password=
+   document.getElementById("loginOtp").value.trim();
+
+ if(phone==="0771234567" && password==="demo1234"){
+
+   localStorage.setItem("lph_logged","true");
+
+   document.getElementById("loginScreen").style.display="none";
+
+   toast("Welcome to Lanka Pigeon Hub 🕊️");
+
+ }else{
+
+   toast("Invalid login. Use 0771234567 / demo1234");
+
+ }
+
+}
+
+
+function logout(){
+
+ localStorage.removeItem("lph_logged");
+
+ document.getElementById("loginScreen").style.display="flex";
+
+}
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+function init(){
+
+ if(localStorage.getItem("lph_logged")!=="true"){
+
+   document.getElementById("loginScreen").style.display="flex";
+
+ }
+
+ renderAll();
+
+ checkQRLink();
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showScreen(id,button){
+
+ document
+   .querySelectorAll(".screen")
+   .forEach(s=>s.classList.remove("active"));
+
+ const screen=document.getElementById(id);
+
+ if(screen){
+   screen.classList.add("active");
+ }
+
+ document
+   .querySelectorAll(".nav-item")
+   .forEach(n=>n.classList.remove("active"));
+
+ if(button){
+   button.classList.add("active");
+ }
+
+ window.scrollTo({
+   top:0,
+   behavior:"smooth"
+ });
+
+ renderAll();
+
+}
+
+
+/* =====================================================
+   RENDER ALL
+===================================================== */
+
+function renderAll(){
+
+ document.getElementById("pigeonCount").textContent=
+   pigeons.length;
+
+ document.getElementById("breederCount").textContent=1;
+
+ const lostCount=
+   pigeons.filter(p=>p.status==="Lost").length;
+
+ document.getElementById("lostNearby").textContent=
+   lostCount+
+   " lost pigeon(s) currently reported";
+
+ renderPigeons();
+ renderMarketplace();
+ renderLost();
+ renderFeatured();
+
+}
+
+
+/* =====================================================
+   PIGEONS
+===================================================== */
+
+function renderPigeons(){
+
+ const container=
+   document.getElementById("pigeonList");
+
+ let list=[...pigeons];
+
+ if(currentFilter==="Archived"){
+
+   list=list.filter(
+     p=>p.status==="Deceased"
+   );
+
+ }else if(currentFilter!=="All"){
+
+   list=list.filter(
+     p=>p.status===currentFilter
+   );
+
+ }
+
+ if(!list.length){
+
+   container.innerHTML=`
+
+    <div class="empty">
+
+      <div class="empty-icon">🕊️</div>
+
+      <p>No pigeons found.</p>
+
+    </div>
+
+   `;
+
+   return;
+
+ }
+
+
+ container.innerHTML=list.map(p=>`
+
+  <div class="card pigeon-card">
+
+    <img
+      class="pigeon-photo"
+      src="${p.photo}"
+      onerror="this.src='https://via.placeholder.com/200?text=Pigeon'">
+
+    <div class="pigeon-info">
+
+      <h3>${escapeHTML(p.name)}</h3>
+
+      <div class="meta">
+        Ring: <b>${escapeHTML(p.ring)}</b>
+      </div>
+
+      <div class="meta">
+        ${escapeHTML(p.breed)} • ${escapeHTML(p.color)}
